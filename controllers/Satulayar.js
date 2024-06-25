@@ -3,15 +3,85 @@ const satulayar_barang = require('../models/satulayar_barang');
 
 const all = async (req, res) => {
     try {
-        const result = await Satulayar.findAll()
+        // Menggunakan findAll untuk mendapatkan semua Satulayar
+        const results = await Satulayar.findAll({
+            where: {
+                user_id: req.user.data['id']
+            }
+        });
 
-        res.status(200);
-        res.json(result)
+        // Memastikan results tidak kosong
+        if (!results || results.length === 0) {
+            throw new Error('No Satulayar found');
+        }
+
+        // Membuat array untuk menyimpan hasil akhir
+        const finalResults = [];
+
+        // Iterasi melalui setiap Satulayar
+        for (let i = 0; i < results.length; i++) {
+            const result = results[i];
+
+            // Menggunakan findAll untuk mencari Satulayar_barang berdasarkan satulayar_id dari result
+            const barang = await Satulayar_barang.findAll({
+                where: { satulayar_id: result.id }, // Menggunakan result.id sebagai satulayar_id
+                include: ['barang']
+            });
+
+            // Menambahkan properti barang ke result
+            result.dataValues.barang = barang;
+
+            // Menambahkan result yang telah dimodifikasi ke dalam array finalResults
+            finalResults.push(result);
+        }
+
+        // Mengirimkan respons dengan status 200 dan finalResults
+        res.status(200).json(finalResults);
     }
     catch (err) {
-        console.log(err)
+        console.error(err);
+        res.status(500).json({ error: err.message });
     }
+}
+const allAdmin = async (req, res) => {
+    try {
+        // Menggunakan findAll untuk mendapatkan semua Satulayar
+        const results = await Satulayar.findAll({
+            include: ['user']
+        });
 
+        // Memastikan results tidak kosong
+        if (!results || results.length === 0) {
+            throw new Error('No Satulayar found');
+        }
+
+        // Membuat array untuk menyimpan hasil akhir
+        const finalResults = [];
+
+        // Iterasi melalui setiap Satulayar
+        for (let i = 0; i < results.length; i++) {
+            const result = results[i];
+
+            // Menggunakan findAll untuk mencari Satulayar_barang berdasarkan satulayar_id dari result
+            const barang = await Satulayar_barang.findAll({
+                where: { satulayar_id: result.id }, // Menggunakan result.id sebagai satulayar_id
+                include: ['barang']
+            });
+
+            // Menambahkan properti barang ke result
+            result.dataValues.barang = barang;
+
+            // Menambahkan result yang telah dimodifikasi ke dalam array finalResults
+            finalResults.push(result);
+        }
+
+        // Mengirimkan respons dengan status 200 dan finalResults
+        res.status(200).json(finalResults);
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 }
 
 const detail = async (req, res) => {
@@ -57,6 +127,7 @@ const add = async (req, res) => {
         lokasi_harga: req.body.lokasi_harga,
         total_barang: req.body.total_barang,
         total: req.body.total,
+        user_id: req.user.data['id']
     }
     if (req.body.id == '') {
         try {
@@ -120,4 +191,4 @@ const remove = async (req, res) => {
     }
 
 }
-module.exports = { all, add, detail, remove }
+module.exports = { all, allAdmin, add, detail, remove }

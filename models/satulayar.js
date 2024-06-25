@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
+            Satulayar.belongsTo(models.User, { foreignKey: 'user_id' })
         }
     }
     Satulayar.init({
@@ -23,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
         lokasi: DataTypes.STRING,
         lokasi_harga: DataTypes.INTEGER,
         total_barang: DataTypes.INTEGER,
-        total: DataTypes.INTEGER
+        total: DataTypes.INTEGER,
+        user_id: DataTypes.STRING
 
     }, {
         sequelize,

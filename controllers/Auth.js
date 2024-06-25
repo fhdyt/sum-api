@@ -16,7 +16,7 @@ const login = async (req, res) => {
     bcrypt.compare(req.body.password, data.user_password, function (err, result) {
         if (result) {
             const token = jwt.sign({ data }, 'MY_SECRET_KEY', { expiresIn: "3d" });
-            res.json({ status: true, token });
+            res.json({ status: true, token, user: data });
         }
         else {
             res.json({ status: false, message: 'unknown' });
@@ -24,24 +24,69 @@ const login = async (req, res) => {
     });
 }
 
-const register = async (req, res) => {
-    console.log(req.body)
+const list = async (req, res) => {
     try {
-        const data = {
-            user_username: req.body.username,
-            user_password: bcrypt.hashSync(req.body.password, 8)
-        }
-
-        const result = await User.create(data)
+        const result = await User.findAll()
         res.status(200);
         res.json(result)
     }
     catch (err) {
         console.log(err)
-        res.json({ "error": err })
     }
 }
+const register = async (req, res) => {
+    console.log(req.body)
+    if (req.body_id == '') {
+        try {
+            const data = {
+                user_username: req.body.user_username,
+                user_name: req.body.user_name,
+                user_phone: req.body.user_phone,
+                user_password: bcrypt.hashSync(req.body.user_password, 8),
+                role: req.body.role
+            }
 
+            const result = await User.create(data)
+            res.status(200);
+            res.json(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.json({ "error": err })
+        }
+    }
+    else {
+        const data = {
+            user_username: req.body.user_username,
+            user_name: req.body.user_name,
+            user_phone: req.body.user_phone,
+            // user_password: bcrypt.hashSync(req.body.user_password, 8),
+            role: req.body.role
+        }
+        const result = await User.update(data, {
+            where: {
+                id: req.body.id
+            }
+        })
+        res.status(200);
+        res.json(result)
+    }
+}
+const detail = async (req, res) => {
+    try {
+        const result = await User.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.status(200);
+        res.json(result)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
 const verify = async (req, res) => {
     res.json({ "status": true })
 }
@@ -50,4 +95,4 @@ const logout = async (req, res) => {
     res.json({ "status": true })
 }
 
-module.exports = { login, register, verify, logout }
+module.exports = { list, login, register, verify, logout, detail }

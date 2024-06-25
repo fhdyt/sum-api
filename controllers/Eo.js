@@ -2,7 +2,24 @@ const { Eo } = require('../database/index');
 
 const all = async (req, res) => {
     try {
-        const result = await Eo.findAll()
+        const result = await Eo.findAll({
+            where: {
+                user_id: req.user.data['id']
+            }
+        })
+        res.status(200);
+        res.json(result)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+const allAdmin = async (req, res) => {
+    try {
+        const result = await Eo.findAll({
+            include: ['user']
+        })
         res.status(200);
         res.json(result)
     }
@@ -29,7 +46,7 @@ const detail = async (req, res) => {
 }
 
 const add = async (req, res) => {
-    console.log(req.body)
+    console.log(req.user)
     const data = {
         kegiatan: req.body.kegiatan,
         venue: req.body.venue,
@@ -41,6 +58,8 @@ const add = async (req, res) => {
         panggung_panjang: req.body.panggung_panjang,
         kapasitas_sound: req.body.kapasitas_sound,
         kelengkapan: req.body.checkbox,
+        user_id: req.user.data['id']
+
     }
     if (req.body.id == '') {
         try {
@@ -82,4 +101,4 @@ const remove = async (req, res) => {
     }
 
 }
-module.exports = { all, add, detail, remove }
+module.exports = { all, allAdmin, add, detail, remove }

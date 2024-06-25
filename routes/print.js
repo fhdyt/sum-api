@@ -4,6 +4,7 @@ const auth = require('../middlewares/auth')
 const Print = require('../controllers/Print')
 
 router.get('/', auth.verifyToken, Print.all)
+router.get('/admin', auth.verifyToken, Print.allAdmin)
 router.get('/:id', auth.verifyToken, Print.detail)
 router.post('/', auth.verifyToken, Print.add)
 router.delete('/:id', auth.verifyToken, Print.remove)

@@ -2,7 +2,24 @@ const { Work } = require('../database/index');
 
 const all = async (req, res) => {
     try {
-        const result = await Work.findAll()
+        const result = await Work.findAll({
+            where: {
+                user_id: req.user.data['id']
+            }
+        })
+        res.status(200);
+        res.json(result)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+const allAdmin = async (req, res) => {
+    try {
+        const result = await Work.findAll({
+            include: ['user']
+        })
         res.status(200);
         res.json(result)
     }
@@ -39,6 +56,7 @@ const add = async (req, res) => {
         // detail: req.body.detail,
         finishing: req.body.finishing,
         desain: req.body.desain,
+        user_id: req.user.data['id']
     }
     console.log
     if (req.body.id == '') {
@@ -81,4 +99,4 @@ const remove = async (req, res) => {
     }
 
 }
-module.exports = { all, add, detail, remove }
+module.exports = { all, allAdmin, add, detail, remove }

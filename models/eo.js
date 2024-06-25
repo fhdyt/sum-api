@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
+            Eo.belongsTo(models.User, { foreignKey: 'user_id' })
         }
     }
     Eo.init({
@@ -24,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         panggung_panjang: DataTypes.INTEGER,
         kapasitas_sound: DataTypes.INTEGER,
         kelengkapan: DataTypes.STRING,
+        user_id: DataTypes.STRING
 
     }, {
         sequelize,

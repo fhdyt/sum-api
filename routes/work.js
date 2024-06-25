@@ -4,6 +4,7 @@ const auth = require('../middlewares/auth')
 const Work = require('../controllers/Work')
 
 router.get('/', auth.verifyToken, Work.all)
+router.get('/admin', auth.verifyToken, Work.allAdmin)
 router.get('/:id', auth.verifyToken, Work.detail)
 router.post('/', auth.verifyToken, Work.add)
 router.delete('/:id', auth.verifyToken, Work.remove)

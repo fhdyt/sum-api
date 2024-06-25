@@ -2,7 +2,24 @@ const { Print } = require('../database/index');
 
 const all = async (req, res) => {
     try {
-        const result = await Print.findAll()
+        const result = await Print.findAll({
+            where: {
+                user_id: req.user.data['id']
+            }
+        })
+        res.status(200);
+        res.json(result)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+const allAdmin = async (req, res) => {
+    try {
+        const result = await Print.findAll({
+            include: ['user']
+        })
         res.status(200);
         res.json(result)
     }
@@ -34,10 +51,13 @@ const add = async (req, res) => {
         kegiatan: req.body.kegiatan,
         cetak: req.body.cetak,
         bahan: req.body.bahan,
+        bahan_harga: req.body.bahan_harga,
         ukuran_panjang: req.body.ukuran_panjang,
         ukuran_lebar: req.body.ukuran_lebar,
         finishing: req.body.finishing,
         desain: req.body.desain,
+        total: req.body.total,
+        user_id: req.user.data['id']
     }
     console.log
     if (req.body.id == '') {
@@ -80,4 +100,4 @@ const remove = async (req, res) => {
     }
 
 }
-module.exports = { all, add, detail, remove }
+module.exports = { all, allAdmin, add, detail, remove }

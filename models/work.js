@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
+            Work.belongsTo(models.User, { foreignKey: 'user_id' })
         }
     }
     Work.init({
@@ -21,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
         ukuran_lebar: DataTypes.INTEGER,
         // detail: DataTypes.STRING,
         finishing: DataTypes.STRING,
-        desain: DataTypes.STRING
+        desain: DataTypes.STRING,
+        user_id: DataTypes.STRING
 
     }, {
         sequelize,
