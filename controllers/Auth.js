@@ -36,7 +36,7 @@ const list = async (req, res) => {
 }
 const register = async (req, res) => {
     console.log(req.body)
-    if (req.body_id == '') {
+    if (req.body.id == '') {
         try {
             const data = {
                 user_username: req.body.user_username,
