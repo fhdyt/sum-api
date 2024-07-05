@@ -96,4 +96,21 @@ const logout = async (req, res) => {
     res.json({ "status": true })
 }
 
-module.exports = { list, login, register, verify, logout, detail }
+const remove = async (req, res) => {
+    try {
+        const id = req.params.id
+        console.log(id)
+        const result = await User.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.status(200);
+        res.json(result)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+module.exports = { list, login, register, verify, logout, detail, remove }
