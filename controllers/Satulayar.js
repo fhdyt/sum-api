@@ -122,7 +122,6 @@ const add = async (req, res) => {
         tanggal_pengembalian: req.body.tanggal_pengembalian,
         jumlah_hari: req.body.jumlah_hari,
         pengantaran: req.body.pengantaran,
-        pengantaran_harga: req.body.pengantaran_harga,
         lokasi: req.body.lokasi,
         lokasi_harga: req.body.lokasi_harga,
         total_barang: req.body.total_barang,

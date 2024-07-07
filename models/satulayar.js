@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         tanggal_pengembalian: DataTypes.DATE,
         jumlah_hari: DataTypes.STRING,
         pengantaran: DataTypes.STRING,
-        pengantaran_harga: DataTypes.INTEGER,
         lokasi: DataTypes.STRING,
         lokasi_harga: DataTypes.INTEGER,
         total_barang: DataTypes.INTEGER,
