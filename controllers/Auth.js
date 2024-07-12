@@ -88,7 +88,7 @@ const detail = async (req, res) => {
 
 }
 const verify = async (req, res) => {
-    console.log('verify')
+    console.log('validddddddddddddddddddddddddd')
     res.json({ "status": true })
 }
 
