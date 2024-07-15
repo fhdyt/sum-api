@@ -34,7 +34,8 @@ const detail = async (req, res) => {
         const result = await Print.findOne({
             where: {
                 id: req.params.id
-            }
+            },
+            include: ['user']
         })
         res.status(200);
         res.json(result)

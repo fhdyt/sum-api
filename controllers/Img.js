@@ -1,6 +1,6 @@
 
 const fs = require('fs');
-
+const { Eo, Work, Satulayar, Print } = require('../database/index');
 const addImg = async (req, res) => {
     console.log(req.user)
     try {
@@ -9,6 +9,114 @@ const addImg = async (req, res) => {
 
         res.status(200);
         res.json({ img: "uploads/" + files[0].filename })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ "error": err })
+    }
+}
+
+const pembayaran = async (req, res) => {
+    console.log(req.body)
+    try {
+        const files = req.files;
+        console.log(files)
+        const photos = [];
+        if (req.body.tableDb == 'eo') {
+            await Eo.update({
+                status: 'Menunggu Konfirmasi',
+                pembayaran: "uploads/" + files[0].filename
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else if (req.body.tableDb == 'work') {
+            await Work.update({
+                status: 'Menunggu Konfirmasi',
+                pembayaran: "uploads/" + files[0].filename
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else if (req.body.tableDb == 'satulayar') {
+            await Satulayar.update({
+                status: 'Menunggu Konfirmasi',
+                pembayaran: "uploads/" + files[0].filename
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else if (req.body.tableDb == 'print') {
+            await Print.update({
+                status: 'Menunggu Konfirmasi',
+                pembayaran: "uploads/" + files[0].filename
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else {
+            console.log('tidak bisa upload')
+        }
+        res.status(200);
+        res.json({ img: "uploads/" + files[0].filename })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ "error": err })
+    }
+}
+const proses = async (req, res) => {
+    console.log(req.body)
+    try {
+        if (req.body.tableDb == 'eo') {
+            await Eo.update({
+                status: req.body.status,
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else if (req.body.tableDb == 'work') {
+            await Work.update({
+                status: req.body.status,
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else if (req.body.tableDb == 'satulayar') {
+            await Satulayar.update({
+                status: req.body.status,
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else if (req.body.tableDb == 'print') {
+            await Print.update({
+                status: req.body.status,
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+        }
+        else {
+            console.log('tidak bisa upload')
+        }
+        res.status(200);
+        res.json({ status: 'success' })
     }
     catch (err) {
         console.log(err)
@@ -41,5 +149,7 @@ const deleteImg = async (req, res) => {
 
 module.exports = {
     addImg,
-    deleteImg
+    deleteImg,
+    pembayaran,
+    proses
 }

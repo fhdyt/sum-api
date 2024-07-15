@@ -90,7 +90,8 @@ const detail = async (req, res) => {
         const result = await Satulayar.findOne({
             where: {
                 id: req.params.id
-            }
+            },
+            include: ['user']
         });
 
         if (!result) {

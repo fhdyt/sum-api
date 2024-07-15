@@ -23,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         // detail: DataTypes.STRING,
         finishing: DataTypes.STRING,
         desain: DataTypes.STRING,
-        user_id: DataTypes.STRING
+        user_id: DataTypes.STRING,
+        pembayaran: DataTypes.STRING,
+        status: DataTypes.STRING
 
     }, {
         sequelize,

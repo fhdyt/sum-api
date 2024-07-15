@@ -25,7 +25,9 @@ module.exports = (sequelize, DataTypes) => {
         panggung_panjang: DataTypes.INTEGER,
         kapasitas_sound: DataTypes.INTEGER,
         kelengkapan: DataTypes.STRING,
-        user_id: DataTypes.STRING
+        user_id: DataTypes.STRING,
+        pembayaran: DataTypes.STRING,
+        status: DataTypes.STRING
 
     }, {
         sequelize,
