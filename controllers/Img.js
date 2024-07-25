@@ -79,6 +79,7 @@ const proses = async (req, res) => {
         if (req.body.tableDb == 'eo') {
             await Eo.update({
                 status: req.body.status,
+                est: req.body.est
             }, {
                 where: {
                     id: req.body.id
@@ -88,6 +89,7 @@ const proses = async (req, res) => {
         else if (req.body.tableDb == 'work') {
             await Work.update({
                 status: req.body.status,
+                est: req.body.est
             }, {
                 where: {
                     id: req.body.id
@@ -97,6 +99,7 @@ const proses = async (req, res) => {
         else if (req.body.tableDb == 'satulayar') {
             await Satulayar.update({
                 status: req.body.status,
+                est: req.body.est
             }, {
                 where: {
                     id: req.body.id
@@ -106,6 +109,7 @@ const proses = async (req, res) => {
         else if (req.body.tableDb == 'print') {
             await Print.update({
                 status: req.body.status,
+                est: req.body.est
             }, {
                 where: {
                     id: req.body.id
